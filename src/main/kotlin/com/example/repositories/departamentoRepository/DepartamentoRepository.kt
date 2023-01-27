@@ -33,7 +33,7 @@ class DepartamentoRepository : CrudRepository<Departamento, Int> {
         return@withContext departamentos.remove(id)
     }
 
-    override suspend fun update(id: Int, entity: Departamento): Departamento? = withContext(Dispatchers.IO) {
+    override suspend fun update(id: Int, entity: Departamento): Departamento = withContext(Dispatchers.IO) {
         println("Actualizando departamento: ${entity.id}")
 
         departamentos[id] = entity

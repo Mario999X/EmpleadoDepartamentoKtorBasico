@@ -13,7 +13,8 @@ fun Application.departamentosRoutes() {
     val departamentoRepository = DepartamentoRepository()
 
     routing {
-        route("/$END_POINT"){
+        route("/$END_POINT") {
+            // Get All
             get {
                 val result = mutableListOf<Departamento>()
 
@@ -22,6 +23,19 @@ fun Application.departamentosRoutes() {
                     result.add(it)
                 }
                 call.respond(HttpStatusCode.OK, result)
+            }
+
+            // Get by Id /endpoint/id
+            get("{id}") {
+                try {
+                    val id = call.parameters["id"]!!.toInt()
+                    val departamento = departamentoRepository.findById(id)
+                    call.respond(
+                        HttpStatusCode.OK, departamento.toString()
+                    )
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.NotFound, e.message.toString())
+                }
             }
         }
     }
