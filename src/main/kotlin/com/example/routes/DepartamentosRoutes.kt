@@ -4,6 +4,7 @@ import com.example.models.Departamento
 import com.example.repositories.departamentoRepository.DepartamentoRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -26,15 +27,35 @@ fun Application.departamentosRoutes() {
             }
 
             // Get by Id /endpoint/id
+            /*
+             * EN THUNDERCLIENT, HEADERS -> Content-Type __ application/json
+             * Luego en BODY -> JSON
+             */
             get("{id}") {
                 try {
                     val id = call.parameters["id"]!!.toInt()
                     val departamento = departamentoRepository.findById(id)
+                    if (departamento != null) {
+                        call.respond(
+                            HttpStatusCode.OK, departamento.toString()
+                        )
+                    } else call.respond(HttpStatusCode.NotFound)
+
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, e.message.toString())
+                }
+            }
+
+            // Post /endpoint
+            post {
+                try {
+                    val departamentoReceive = call.receive<Departamento>()
+                    val departamentoSave = departamentoRepository.save(departamentoReceive)
                     call.respond(
-                        HttpStatusCode.OK, departamento.toString()
+                        HttpStatusCode.Created, departamentoRepository.findById(departamentoSave.id).toString()
                     )
                 } catch (e: Exception) {
-                    call.respond(HttpStatusCode.NotFound, e.message.toString())
+                    call.respond(HttpStatusCode.BadRequest, e.message.toString())
                 }
             }
         }
