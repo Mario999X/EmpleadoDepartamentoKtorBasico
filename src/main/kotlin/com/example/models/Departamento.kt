@@ -5,5 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Departamento(
     val id: Int,
-    val nombre: String
-)
+    val nombre: String,
+    var listadoEmpleados: MutableList<Empleado> = mutableListOf()
+) {
+
+}

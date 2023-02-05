@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.8.0"
     id("io.ktor.plugin") version "2.2.2"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    // Plugin KSP para generar código en tiempo de compilación ktorfit
+    id("com.google.devtools.ksp") version "1.8.0-1.0.8"
 }
 
 group = "com.example"
@@ -31,4 +33,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+    //Koin
+    implementation("io.insert-koin:koin-core:3.2.2")
+    implementation("io.insert-koin:koin-annotations:1.0.3")
+    ksp("io.insert-koin:koin-ksp-compiler:1.0.3")
 }
