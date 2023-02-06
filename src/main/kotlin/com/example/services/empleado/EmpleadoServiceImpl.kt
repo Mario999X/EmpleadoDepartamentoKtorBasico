@@ -1,7 +1,6 @@
 package com.example.services.empleado
 
 import com.example.models.Empleado
-import com.example.repositories.departamentoRepository.DepartamentoRepository
 import com.example.repositories.empleadoRepository.EmpleadoRepository
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Single
@@ -9,7 +8,6 @@ import org.koin.core.annotation.Single
 @Single
 class EmpleadoServiceImpl(
     private val repository: EmpleadoRepository,
-    private val repositoryDepartamento: DepartamentoRepository
 ) : EmpleadoService {
 
     override suspend fun findAll(): Flow<Empleado> {

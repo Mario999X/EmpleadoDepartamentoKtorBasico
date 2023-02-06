@@ -2,6 +2,12 @@ val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 
+// Koin
+val koin_ktor_version: String by project
+val ksp_version: String by project
+val koin_ksp_version: String by project
+val koin_version: String by project
+
 plugins {
     kotlin("jvm") version "1.8.0"
     id("io.ktor.plugin") version "2.2.2"
@@ -34,8 +40,12 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
-    //Koin
-    implementation("io.insert-koin:koin-core:3.2.2")
-    implementation("io.insert-koin:koin-annotations:1.0.3")
-    ksp("io.insert-koin:koin-ksp-compiler:1.0.3")
+    // Koin
+    implementation("io.insert-koin:koin-ktor:$koin_ktor_version") // Koin para Ktor
+    implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor_version") // Koin para Ktor con Logger
+    // implementation("io.insert-koin:koin-core:$koin_version") // Koin Core no es necesario para Ktor, lo hemos añadido antes
+    implementation("io.insert-koin:koin-annotations:$koin_ksp_version") // Si usamos Koin con KSP Anotaciones
+    ksp("io.insert-koin:koin-ksp-compiler:$koin_ksp_version") // Si usamos Koin con KSP Anotaciones
+
+
 }

@@ -6,8 +6,9 @@ import kotlinx.serialization.Serializable
 data class Empleado(
     val id: Int,
     val name: String,
+    val departamento: Departamento? = null
 ) {
     override fun toString(): String {
-        return "Empleado(id=$id, name='$name')"
+        return "Empleado(id=$id, name='$name', departamento=$departamento)"
     }
 }

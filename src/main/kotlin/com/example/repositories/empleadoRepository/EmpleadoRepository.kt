@@ -5,9 +5,11 @@ import com.example.models.Empleado
 import com.example.repositories.CrudRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Single
+@Named("EmpleadoRepository")
 class EmpleadoRepository : CrudRepository<Empleado, Int> {
 
     // Fuente de datos

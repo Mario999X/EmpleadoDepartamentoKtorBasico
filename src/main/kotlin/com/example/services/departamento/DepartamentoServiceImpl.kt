@@ -2,12 +2,18 @@ package com.example.services.departamento
 
 import com.example.models.Departamento
 import com.example.repositories.departamentoRepository.DepartamentoRepository
+import com.example.repositories.empleadoRepository.EmpleadoRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.toList
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Single
 class DepartamentoServiceImpl(
-    private val repository: DepartamentoRepository
+    @Named("DepartamentoRepository")
+    private val repository: DepartamentoRepository,
+    @Named("EmpleadoRepository")
+    private val empleadoRepository: EmpleadoRepository
 ) : DepartamentoService {
 
     override suspend fun findAll(): Flow<Departamento> {
@@ -33,10 +39,15 @@ class DepartamentoServiceImpl(
     override suspend fun delete(id: Int): Departamento {
         val existe = repository.findById(id)
 
+        System.err.println(existe)
         existe?.let {
-            if (existe.listadoEmpleados.isEmpty()) {
+            val empleados = empleadoRepository.findAll().toList().filter { it.departamento?.id == existe.id }
+            val count = empleados.size
+
+            System.err.println(empleados.size)
+            if (count == 0) {
                 return repository.delete(id)!!
-            } else throw Exception("No pudo eliminarse, al menos existe un empleado")
+            } else throw Exception("No fue posible eliminar el departamento | $count empleados")
         } ?: throw Exception("No se encontro ese departamento")
     }
 }

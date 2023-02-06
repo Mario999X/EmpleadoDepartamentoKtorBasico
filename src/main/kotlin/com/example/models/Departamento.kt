@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class Departamento(
     val id: Int,
     val nombre: String,
-    var listadoEmpleados: MutableList<Empleado> = mutableListOf()
 ) {
-
+    override fun toString(): String {
+        return "Departamento(id=$id, nombre='$nombre')"
+    }
 }

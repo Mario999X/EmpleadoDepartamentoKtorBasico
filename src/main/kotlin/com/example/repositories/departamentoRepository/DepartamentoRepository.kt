@@ -7,9 +7,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Single
+@Named("DepartamentoRepository")
 class DepartamentoRepository : CrudRepository<Departamento, Int> {
 
     // Fuente de datos
