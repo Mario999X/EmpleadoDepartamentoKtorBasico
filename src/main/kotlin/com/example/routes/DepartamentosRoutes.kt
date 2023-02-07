@@ -7,6 +7,8 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 
 private const val END_POINT = "api/departamentos"
@@ -25,6 +27,8 @@ fun Application.departamentosRoutes() {
                 departamentoService.findAll().collect {
                     result.add(it)
                 }
+                println(Json.encodeToString<List<Departamento>>(result))
+
                 call.respond(HttpStatusCode.OK, result)
             }
 
@@ -33,9 +37,8 @@ fun Application.departamentosRoutes() {
                 try {
                     val id = call.parameters["id"]!!.toInt()
                     val departamento = departamentoService.findById(id)
-                    call.respond(
-                        HttpStatusCode.OK, departamento.toString()
-                    )
+
+                    call.respond(HttpStatusCode.OK, departamento.toString())
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.BadRequest, e.message.toString())
                 }

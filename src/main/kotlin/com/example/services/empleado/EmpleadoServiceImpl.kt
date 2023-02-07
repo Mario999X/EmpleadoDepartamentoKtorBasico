@@ -3,10 +3,12 @@ package com.example.services.empleado
 import com.example.models.Empleado
 import com.example.repositories.empleadoRepository.EmpleadoRepository
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 @Single
 class EmpleadoServiceImpl(
+    @Named("EmpleadoRepository")
     private val repository: EmpleadoRepository,
 ) : EmpleadoService {
 
