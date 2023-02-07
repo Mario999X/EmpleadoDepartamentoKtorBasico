@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.routes.departamentosRoutes
+import com.example.routes.empleadosRoutes
 import com.example.routes.testRoutes
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
@@ -16,4 +17,5 @@ fun Application.configureRouting() {
     // Definimos el resto de rutas dentro de Routes
     testRoutes()
     departamentosRoutes()
+    empleadosRoutes()
 }

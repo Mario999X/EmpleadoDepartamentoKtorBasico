@@ -7,7 +7,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.withContext
+import org.koin.core.annotation.Named
+import org.koin.core.annotation.Single
 
+@Single
+@Named("DepartamentoRepository")
 class DepartamentoRepository : CrudRepository<Departamento, Int> {
 
     // Fuente de datos
@@ -48,7 +52,7 @@ class DepartamentoRepository : CrudRepository<Departamento, Int> {
     }
 
     override suspend fun findById(id: Int): Departamento? = withContext(Dispatchers.IO) {
-        println("Mostradno departamento con id: $id")
+        println("Mostrando departamento con id: $id")
 
         //Buscamos
         return@withContext departamentos[id]

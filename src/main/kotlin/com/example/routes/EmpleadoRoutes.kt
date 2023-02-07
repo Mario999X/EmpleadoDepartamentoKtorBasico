@@ -1,7 +1,7 @@
 package com.example.routes
 
-import com.example.models.Departamento
-import com.example.services.departamento.DepartamentoServiceImpl
+import com.example.models.Empleado
+import com.example.services.empleado.EmpleadoServiceImpl
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -11,51 +11,46 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 
-private const val END_POINT = "api/departamentos"
+private const val END_POINT = "api/empleados"
 
-fun Application.departamentosRoutes() {
+fun Application.empleadosRoutes() {
 
-    val departamentoService: DepartamentoServiceImpl by inject()
+    val empleadoService: EmpleadoServiceImpl by inject()
 
     routing {
         route("/$END_POINT") {
             // Get All
             get {
-                val result = mutableListOf<Departamento>()
+                val result = mutableListOf<Empleado>()
 
                 // Procesamos el flujo
-                departamentoService.findAll().collect {
+                empleadoService.findAll().collect {
                     result.add(it)
                 }
-                println(Json.encodeToString<List<Departamento>>(result))
+
+                println(Json.encodeToString<List<Empleado>>(result))
 
                 call.respond(HttpStatusCode.OK, result)
             }
 
-            // Get by Id /endpoint/id
+            // Get By Id
             get("{id}") {
                 try {
                     val id = call.parameters["id"]!!.toInt()
-                    val departamento = departamentoService.findById(id)
+                    val empleado = empleadoService.findById(id)
 
-                    call.respond(HttpStatusCode.OK, departamento.toString())
+                    call.respond(HttpStatusCode.OK, empleado.toString())
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.BadRequest, e.message.toString())
                 }
             }
 
             // Post /endpoint
-            /*
-             * EN THUNDERCLIENT, HEADERS -> Content-Type __ application/json
-             * Luego en BODY -> JSON
-            */
             post {
                 try {
-                    val departamentoReceive = call.receive<Departamento>()
-                    val departamentoSave = departamentoService.save(departamentoReceive)
-                    call.respond(
-                        HttpStatusCode.Created, departamentoService.findById(departamentoSave.id).toString()
-                    )
+                    val empleadoReceive = call.receive<Empleado>()
+                    val empleadoSave = empleadoService.save(empleadoReceive)
+                    call.respond(HttpStatusCode.Created, empleadoService.findById(empleadoSave.id).toString())
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.BadRequest, e.message.toString())
                 }
@@ -64,9 +59,9 @@ fun Application.departamentosRoutes() {
             put("{id}") {
                 try {
                     val id = call.parameters["id"]?.toInt()!!
-                    val request = call.receive<Departamento>()
-                    val departamento = departamentoService.update(id, request)
-                    call.respond(HttpStatusCode.OK, departamento.toString())
+                    val request = call.receive<Empleado>()
+                    val empleado = empleadoService.update(id, request)
+                    call.respond(HttpStatusCode.OK, empleado.toString())
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.BadRequest, e.message.toString())
                 }
@@ -76,7 +71,7 @@ fun Application.departamentosRoutes() {
                 try {
                     val id = call.parameters["id"]?.toInt()!!
 
-                    departamentoService.delete(id)
+                    empleadoService.delete(id)
                     call.respond(HttpStatusCode.NoContent)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.NotFound, e.message.toString())
