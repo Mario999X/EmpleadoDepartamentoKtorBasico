@@ -61,5 +61,6 @@ El proyecto es generado en la siguiente pagina: https://start.ktor.io/#/settings
 
   - Lo dicho, en este caso no aplicare seguridad ni jwt, pero para futuros proyectos sera importante
 
-  - El uso de Koin es un tema, recomiendo mirar el gradle y el que como esta usado en plugins y repositorios/servicios
+  - El uso de Koin es un tema, recomiendo mirar el gradle y el que como esta usado en plugins + el uso
+   de componentes generados en el build cuando se compila el programa [debajo de depencencies] y repositorios/servicios
  */
