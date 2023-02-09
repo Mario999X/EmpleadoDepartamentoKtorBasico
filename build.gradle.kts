@@ -30,22 +30,35 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    // Ktor core
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+
+    // Motor de Ktor
+    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+
+    // JSON content negotiation
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktor_version")
+
     implementation("io.ktor:ktor-server-auth-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
+
     implementation("ch.qos.logback:logback-classic:$logback_version")
+
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     // Koin
     implementation("io.insert-koin:koin-ktor:$koin_ktor_version") // Koin para Ktor
     implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor_version") // Koin para Ktor con Logger
-    // implementation("io.insert-koin:koin-core:$koin_version") // Koin Core no es necesario para Ktor, lo hemos añadido antes
+    //implementation("io.insert-koin:koin-core:$koin_version") // Koin Core no es necesario para Ktor, lo hemos añadido antes
     implementation("io.insert-koin:koin-annotations:$koin_ksp_version") // Si usamos Koin con KSP Anotaciones
     ksp("io.insert-koin:koin-ksp-compiler:$koin_ksp_version") // Si usamos Koin con KSP Anotaciones
 
+}
 
+// Para Koin Annotations, directorio donde se encuentran las clases compiladas
+// KSP - To use generated sources
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
 }
